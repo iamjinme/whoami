@@ -2,18 +2,13 @@
 
 function Whoami() {
   
-  this.isNumeric = function(value) {
-    return !isNaN(value);
-  };
-  
-  this.isDate = function(value) {
-    var date = new Date(value);
-    return (date.toString() !== 'Invalid Date');
+  this.getLanguage = function(req) {
+    return req.headers['accept-language'].split(',')[0];
   }
 
   this.getBrowser = function(req) {
     var match = req.headers['user-agent'].match(/\((.*?)\)/g);
-    return match[0].replace(/\(\)/g, '');
+    return match[0].replace('(', '').replace(')', '');
   }
   
   this.getIp = function(req) {
@@ -25,7 +20,7 @@ function Whoami() {
   }
   
   this.getWhoami = function(req) {
-    return JSON.stringify({ "ipaddress": this.getIp(req), "software": this.getBrowser(req) });
+    return JSON.stringify({ "ipaddress": this.getIp(req), "language": this.getLanguage(req), "software": this.getBrowser(req) });
   }
 
 };
